@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.task.TAU;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +38,11 @@ public class Application {
 	@RestController
 	public class CoinMachineController {
 
+		@GetMapping("/")
+		public String index() {
+			return "Greetings from Spring Boot!";
+		}
+
 		@GetMapping("/coinMachine/{value}")
 		public ResponseEntity coinMachine(@PathVariable Long value) {
 			StringBuilder result = new StringBuilder();
@@ -45,14 +50,14 @@ public class Application {
 			try {
 				result.append(findMin(value)+ "\n");	
 			} catch (Exception ex) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN)
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             		.body(ex.getMessage());
 			}
 			result.append("Machine still have: \n");
 			for (Double key : coinsLeft.keySet()) {
 				result.append(coinsLeft.get(key) + " coins of " + key + "\n");
 			}
-			return ResponseEntity.status(HttpStatus.ACCEPTED)                 
+			return ResponseEntity.status(HttpStatus.OK)                 
             	.body(result.toString());
 		}
 
